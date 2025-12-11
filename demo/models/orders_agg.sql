@@ -1,9 +1,9 @@
-{{ config(materialized='table') }}
+{{ config(materialized='view') }}
 
 select
+    order_id,
     shop_id,
-    count(*) as order_count,
-    sum(amount) as total_amount
-from {{ ref('orders') }}
-group by 1
+    amount,
+    created_at
+from read_csv_auto('data/orders.csv')
 
